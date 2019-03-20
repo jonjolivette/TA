@@ -18,13 +18,12 @@ def email_exists(form, field):
 
 class RegisterForm(Form):
     username = StringField(
-        'Username',
+        'Name',
         validators=[
             DataRequired(),
             Regexp(
-                r'^[a-zA-Z0-9_]+$',
-                message=("Username should be one word, letters, "
-                         "numbers, and underscores only.")
+                r'^[a-zA-Z ]+$',
+                message=("Name cannot contain symbols or special characters")
             ),
             name_exists
         ])
@@ -50,3 +49,6 @@ class RegisterForm(Form):
 class LoginForm(Form):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+
+# class PostForm(Form):
+#     content = TextAreaField("Enter Post here", validators=[DataRequired()])

@@ -3,10 +3,8 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 
-
 import models
 import forms
-
 
 DEBUG = True
 PORT = 8000
@@ -15,6 +13,7 @@ app = Flask(__name__)
 app.secret_key = 'adkjfalj.adflja.dfnasdf.asd'
 
 login_manager = LoginManager()
+## sets up our login for the app
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
@@ -25,13 +24,13 @@ def load_user(userid):
     except models.DoesNotExist:
         return None
 
+# Connect to database before request
 @app.before_request
 def before_request():
-    """Connect to the database before each request."""
+    """Connect to database before each request """
     g.db = models.DATABASE
     g.db.connect()
     g.user = current_user
-
 
 @app.after_request
 def after_request(response):
@@ -47,12 +46,12 @@ def index():
 def register():
     form = forms.RegisterForm()
     if form.validate_on_submit():
-        flash('Yay you registered', 'success')
+        flash("Hooray, you registered!",'success')
         models.User.create_user(
             username=form.username.data,
             email=form.email.data,
             password=form.password.data
-            )
+        )
 
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
@@ -82,7 +81,6 @@ def logout():
     flash("You've been logged out", "success")
     return redirect(url_for('index'))
 
-
 if __name__ == '__main__':
     models.initialize()
     try:
@@ -90,9 +88,10 @@ if __name__ == '__main__':
             username='jimbo',
             email="jim@jim.com",
             password='password',
-            admin=True
+            course="test",
+            role=True
             )
     except ValueError:
         pass
 
-    app.run(debug=DEBUG, port=PORT)
+app.run(debug=DEBUG, port=PORT)
