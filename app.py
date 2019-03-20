@@ -2,6 +2,7 @@ from flask import Flask, g
 from flask import render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
+from config import Config
 
 import models
 import forms
@@ -10,7 +11,7 @@ DEBUG = True
 PORT = 8000
 
 app = Flask(__name__)
-app.secret_key = 'adkjfalj.adflja.dfnasdf.asd'
+app.config.from_object(Config)
 
 login_manager = LoginManager()
 ## sets up our login for the app
@@ -81,6 +82,22 @@ def logout():
     flash("You've been logged out", "success")
     return redirect(url_for('index'))
 
+@app.route('/event', methods=('GET', 'POST'))
+@login_required
+def create_event():
+    form = forms.CreateEventForm()
+    if form.validate_on_submit():
+        flash("Hooray, you registered!",'success')
+        models.Event.create_event(
+            instructor=g.user.id,
+            title=form.title.data
+        )
+
+        return redirect(url_for('index'))
+    return render_template('create_event.html', form=form)
+
+
+
 if __name__ == '__main__':
     models.initialize()
     try:
@@ -89,8 +106,15 @@ if __name__ == '__main__':
             email="jim@jim.com",
             password='password',
             course="test",
-            role=True
+            role="Instructor"
             )
+        models.User.create_user(
+            username='joe student',
+            email="joe@student.com",
+            password='password',
+            course="test",
+            role="Student"
+        )
     except ValueError:
         pass
 

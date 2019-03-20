@@ -36,10 +36,7 @@ class User(UserMixin, Model):
             raise ValueError("User already exists")
 
 class Event(Model):
-    student = ForeignKeyField(
-        model=User,
-        backref='events'
-    )
+    student = CharField(default="Student Guy")
     instructor = ForeignKeyField(
         model=User,
         backref='events'
@@ -51,15 +48,14 @@ class Event(Model):
         database = DATABASE
 
     @classmethod
-    def create_event(cls, student, instructor, title, notes):
+    def create_event(cls, instructor, title, student="Dude"):
         try:
             cls.create(
                 student=student,
                 instructor=instructor,
-                title=title,
-                notes=notes
+                title=title
             )
-        except IntegerError:
+        except IntegrityError:
             raise ValueError("Something broke")
         
 def initialize():

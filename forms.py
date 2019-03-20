@@ -15,6 +15,7 @@ def name_exists(form, field):
 def email_exists(form, field):
     if User.select().where(User.email == field.data).exists():
         raise ValidationError('User with that email already exists.')
+        
 
 class RegisterForm(Form):
     username = StringField(
@@ -45,6 +46,18 @@ class RegisterForm(Form):
         'Confirm Password',
         validators=[DataRequired()]
     )
+
+class CreateEventForm(Form):
+    title = StringField(
+        'Title',
+        validators=[
+            DataRequired(),
+            Regexp(
+                r'^[a-zA-Z ]+$',
+                message=("Name cannot contain symbols or special characters")
+            )
+        ])
+        
 
 class LoginForm(Form):
     email = StringField('Email', validators=[DataRequired(), Email()])
