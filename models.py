@@ -1,5 +1,6 @@
 import datetime
 from peewee import *
+import moment
 
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
@@ -41,19 +42,21 @@ class Event(Model):
         model=User,
         backref='events'
     )
-    title = CharField(max_length=256, default="I am a title")
+    date = DateField()
+    duration = CharField()
     notes = CharField(max_length=256, default="Bleep Bloop")
 
     class Meta:
         database = DATABASE
 
     @classmethod
-    def create_event(cls, instructor, title, student="Dude"):
+    def create_event(cls, instructor, duration, date, student="Dude"):
         try:
             cls.create(
                 student=student,
                 instructor=instructor,
-                title=title
+                date=date,
+                duration=duration
             )
         except IntegrityError:
             raise ValueError("Something broke")

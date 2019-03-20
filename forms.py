@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm as Form
 
 from models import User
 
-from wtforms import StringField, PasswordField, TextAreaField
+from wtforms import StringField, PasswordField, TextAreaField, DateField, SelectField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo)
 
@@ -57,6 +57,18 @@ class CreateEventForm(Form):
                 message=("Name cannot contain symbols or special characters")
             )
         ])
+    date = DateField(
+        'Date',
+        validators=[
+            DataRequired()
+        ],
+        format="%Y-%m-%d"
+    )
+    duration = SelectField(
+        'Duration',
+        choices=[("15",'15 Minutes'),("30", '30 Minutes'),("45",'45 Minutes')],
+        default="15"
+    )
         
 
 class LoginForm(Form):
