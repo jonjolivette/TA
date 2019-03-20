@@ -1,7 +1,10 @@
+# from flask import render_template
 from flask import Flask, g
 from flask import render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
+from flask_bootstrap import Bootstrap
+from flask_fontawesome import FontAwesome
 from config import Config
 
 import moment
@@ -12,8 +15,11 @@ import forms
 DEBUG = True
 PORT = 8000
 
+
 app = Flask(__name__)
 app.config.from_object(Config)
+
+
 
 login_manager = LoginManager()
 ## sets up our login for the app
@@ -40,10 +46,6 @@ def after_request(response):
     """Close the database connection after each request."""
     g.db.close()
     return response
-
-@app.route('/')
-def index():
-    return render_template('layout.html')
 
 @app.route('/register', methods=('GET', 'POST'))
 def register():
@@ -102,6 +104,21 @@ def create_event():
         return redirect(url_for('index'))
     return render_template('create_event.html', form=form)
 
+# ============ HOME PAGE ROUTE ============
+@app.route('/')
+def index():
+    return render_template('hero.html')
+
+# ============ STUDENT DASHBOARD ROUTE ============
+@app.route('/student')
+def student_dash():
+    return render_template('student-dashboard.html')
+
+
+# ============ TEACHER DASHBOARD ROUTE ============
+@app.route('/teacher')
+def teacher_dash():
+    return render_template('teacher-dashboard.html')
 
 
 if __name__ == '__main__':
