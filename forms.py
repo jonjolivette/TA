@@ -48,15 +48,6 @@ class RegisterForm(Form):
     )
 
 class CreateEventForm(Form):
-    title = StringField(
-        'Title',
-        validators=[
-            DataRequired(),
-            Regexp(
-                r'^[a-zA-Z ]+$',
-                message=("Name cannot contain symbols or special characters")
-            )
-        ])
     date = DateField(
         'Date',
         validators=[

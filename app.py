@@ -87,9 +87,12 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/event', methods=('GET', 'POST'))
-@login_required
 def create_event():
     form = forms.CreateEventForm()
+    if g.user.role != "Instructor":
+        flash("Oi, you can't get in here")
+        return redirect(url_for('index'))
+        
     if form.validate_on_submit():
         flash("Hooray, you registered!",'success')
         models.Event.create_event(

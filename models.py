@@ -60,6 +60,9 @@ class Event(Model):
             )
         except IntegrityError:
             raise ValueError("Something broke")
+
+    @classmethod
+    def delete_event(cls)
         
 def initialize():
     DATABASE.connect()
