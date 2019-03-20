@@ -7,6 +7,8 @@ from flask_bootstrap import Bootstrap
 from flask_fontawesome import FontAwesome
 from config import Config
 
+import moment
+
 import models
 import forms
 
@@ -92,7 +94,8 @@ def create_event():
         flash("Hooray, you registered!",'success')
         models.Event.create_event(
             instructor=g.user.id,
-            title=form.title.data
+            date=form.date.data,
+            duration=form.duration.data,
         )
 
         return redirect(url_for('index'))
