@@ -7,21 +7,23 @@ from flask_bcrypt import generate_password_hash
 
 DATABASE = SqliteDatabase('ta.db')
 
+
 class User(UserMixin, Model):
     username = CharField(unique=True)
     email = CharField(unique=True)
     password = CharField(max_length=100)
     joined_at = DateTimeField(default=datetime.datetime.now)
     course = CharField(default="General")
-    avatar = CharField(default="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png")
+    avatar = CharField(
+        default="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png")
     role = CharField(default="Student")
-    
+
     class Meta:
         database = DATABASE
 
     def get_events(self):
         return Event.select().where(Event.user == self)
-        
+
     @classmethod
     def create_user(cls, username, email, password, avatar="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png", course="General", role="Student"):
         try:
@@ -35,6 +37,7 @@ class User(UserMixin, Model):
             )
         except IntegrityError:
             raise ValueError("User already exists")
+
 
 class Event(Model):
     student = CharField(default="Student Guy")
@@ -61,9 +64,14 @@ class Event(Model):
         except IntegrityError:
             raise ValueError("Something broke")
 
-    @classmethod
-    def delete_event(cls)
-        
+    # @classmethod
+    # def delete_event(cls):
+    #     try:
+    #         cls.delete(
+
+    #         )
+
+
 def initialize():
     DATABASE.connect()
     DATABASE.create_tables([User, Event], safe=True)

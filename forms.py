@@ -4,7 +4,7 @@ from models import User
 
 from wtforms import StringField, PasswordField, TextAreaField, DateField, SelectField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
-                               Length, EqualTo)
+                                Length, EqualTo)
 
 
 def name_exists(form, field):
@@ -15,7 +15,7 @@ def name_exists(form, field):
 def email_exists(form, field):
     if User.select().where(User.email == field.data).exists():
         raise ValidationError('User with that email already exists.')
-        
+
 
 class RegisterForm(Form):
     username = StringField(
@@ -47,6 +47,9 @@ class RegisterForm(Form):
         validators=[DataRequired()]
     )
 
+# class DeleteUserForm(Form):
+
+
 class CreateEventForm(Form):
     date = DateField(
         'Date',
@@ -57,10 +60,11 @@ class CreateEventForm(Form):
     )
     duration = SelectField(
         'Duration',
-        choices=[("15",'15 Minutes'),("30", '30 Minutes'),("45",'45 Minutes')],
+        choices=[("15", '15 Minutes'), ("30", '30 Minutes'),
+                 ("45", '45 Minutes')],
         default="15"
     )
-        
+
 
 class LoginForm(Form):
     email = StringField('Email', validators=[DataRequired(), Email()])
