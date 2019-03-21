@@ -50,7 +50,7 @@ class RegisterForm(Form):
 # class DeleteUserForm(Form):
 
 
-class CreateEventForm(Form):
+ class CreateEventForm(Form):
     date = DateField(
         'Date',
         validators=[
