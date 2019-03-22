@@ -2,7 +2,7 @@
 
 <a href="/event">Return to Events</a>
 <h3>Event - {{ found_event }}</h3>
-<p>Student = {{ found_event.student }}</p>
+<p>Student = {{ found_event.student.username }}</p>
 <p>Date = {{ found_event.date }}</p>
 <p>Duration = {{ found_event.duration }} Minutes</p>
 <form method="POST" action="" class="form">
