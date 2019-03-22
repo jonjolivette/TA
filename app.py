@@ -148,7 +148,17 @@ def event_update(id):
             update.execute()
             return redirect(url_for('event'))
 
-    return render_template('edit_event.html', form=form, found_event=found_event[0],)
+    return render_template('edit_event.html', form=form, found_event=found_event[0])
+
+
+@app.route('/event/add_student/<id>', methods=('POST', 'GET'))
+def add_student_to_event(id):
+    found_event = Event.select().where(Event.id == id)
+    if found_event[0].student == None:
+        add_student = Event.update(
+            student=current_user.id).where(Event.id == id)
+        add_student.execute()
+    return redirect(url_for('event'))
 
 
 # ============ HOME PAGE ROUTE ============

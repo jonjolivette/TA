@@ -2,7 +2,9 @@ from flask_wtf import FlaskForm as Form
 
 from models import User
 
-from wtforms import StringField, PasswordField, TextAreaField, DateField, SelectField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField
+
+from wtforms.fields.html5 import DateField, DateTimeField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                 Length, EqualTo)
 
@@ -61,7 +63,7 @@ class CreateEventForm(Form):
         validators=[
             DataRequired()
         ],
-        format="%Y-%m-%d"
+        # format="%Y-%m-%d"
     )
     duration = SelectField(
         'Duration',

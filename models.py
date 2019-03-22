@@ -48,7 +48,7 @@ class Event(Model):
     model=User,
     backref='events'
     )
-    date = DateField()
+    date = DateTimeField()
     duration = CharField()
     notes = CharField(max_length=256, default="Bleep Bloop")
 
