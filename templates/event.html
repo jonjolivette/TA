@@ -1,0 +1,8 @@
+<div class="events">
+  <h2>Events!</h2>
+  <a href="/event/create">Create New Event</a> <a href="/">Home</a>
+  {% for event in events %}
+  <p>Meeting with {{ event.student.username }}, on {{ event.date }} instructor {{event.instructor.username}} - Event ID:{{ event }}</p>
+  <a href="{{ url_for('event_delete', id=event.id) }}" class="delete_button">Delete</a> <a href="{{ url_for('event_update', id=event.id) }}" class="edit_button">Edit</a>
+  {% endfor %}
+</div>

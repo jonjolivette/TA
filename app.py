@@ -10,6 +10,8 @@ from config import Config
 import moment
 
 import models
+from models import User
+from models import Event
 import forms
 
 DEBUG = True
@@ -57,6 +59,7 @@ def register():
         models.User.create_user(
             username=form.username.data,
             email=form.email.data,
+            role=form.role.data,
             password=form.password.data
         )
 
@@ -91,15 +94,16 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/event', methods=('GET', 'POST'))
-@login_required
+@app.route('/event/create', methods=('GET', 'POST'))
+# @login_required
 def create_event():
     form = forms.CreateEventForm()
     if g.user.role != "Instructor":
-        flash("Oi, you can't get in here")
         return redirect(url_for('index'))
 
     if form.validate_on_submit():
+        print('in if')
+        print(form.duration.data)
         flash("Hooray, you registered!", 'success')
         models.Event.create_event(
             instructor=g.user.id,
@@ -107,8 +111,32 @@ def create_event():
             duration=form.duration.data,
         )
 
-        return redirect(url_for('index'))
+        # return redirect(url_for('index'))
     return render_template('create_event.html', form=form)
+
+# ============ EVENT PAGE ROUTE ============
+
+@app.route('/event',  methods=('GET', 'POST'))
+@login_required
+def event():
+    events = Event.select()
+    return render_template('event.html', events=events)
+
+@app.route('/event/delete/<id>', methods=['DELETE','GET'])
+@login_required
+def event_delete(id):
+    print(id)
+    found_event = Event.select().where(Event.id == id)
+    print(found_event)
+    print(found_event[0].instructor_id)
+    if g.user.id == found_event[0].instructor_id:
+        event_to_delete = Event.delete().where(Event.id == found_event[0].id)
+        event_to_delete.execute()
+    return redirect(url_for('event'))
+
+@app.route('/event/update/<id>', methods=('POST','GET'))
+def event_update(id):
+    return redirect(url_for('event'))
 
 # ============ HOME PAGE ROUTE ============
 @app.route('/')
@@ -126,23 +154,6 @@ def student_dash():
 def teacher_dash():
     return render_template('teacher-dashboard.html')
 
-# ============ ADMIN PAGE ROUTE ============
-
-
-@app.route('/admin',  methods=('GET', 'POST'))
-@login_required
-def admin():
-    create_user_form = forms.RegisterForm()
-    if create_user_form.validate_on_submit():
-        flash("Hooray, you registered!", 'success')
-        models.User.create_user(
-            username=create_user_form.username.data,
-            email=create_user_form.email.data,
-            password=create_user_form.password.data
-        )
-    return render_template('admin.html', form=create_user_form)
-
-
 if __name__ == '__main__':
     models.initialize()
     try:
@@ -159,6 +170,13 @@ if __name__ == '__main__':
             password='password',
             course="test",
             role="Student"
+        )
+        models.User.create_user(
+            username='walrus',
+            email="thewalrus@tusk.com",
+            password='password',
+            course="test",
+            role="Instructor"
         )
     except ValueError:
         pass

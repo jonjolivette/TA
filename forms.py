@@ -35,6 +35,11 @@ class RegisterForm(Form):
             Email(),
             email_exists
         ])
+    role = SelectField(
+        'role',
+        choices=[("Student","Student"), ("Instructor","Instructor")],
+        default="Student"
+    )
     password = PasswordField(
         'Password',
         validators=[
@@ -60,11 +65,12 @@ class CreateEventForm(Form):
     )
     duration = SelectField(
         'Duration',
-        choices=[("15", '15 Minutes'), ("30", '30 Minutes'),
-                 ("45", '45 Minutes')],
+        choices=[("15", '15 Minutes'), ("30", '30 Minutes'), ("45", '45 Minutes')],
         default="15"
     )
 
+class DeleteEventForm(Form):
+    id = StringField('id', validators=[DataRequired()])
 
 class LoginForm(Form):
     email = StringField('Email', validators=[DataRequired(), Email()])

@@ -11,12 +11,11 @@ DATABASE = SqliteDatabase('ta.db')
 class User(UserMixin, Model):
     username = CharField(unique=True)
     email = CharField(unique=True)
+    role = CharField()
     password = CharField(max_length=100)
     joined_at = DateTimeField(default=datetime.datetime.now)
     course = CharField(default="General")
-    avatar = CharField(
-        default="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png")
-    role = CharField(default="Student")
+    avatar = CharField(default="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png")
 
     class Meta:
         database = DATABASE
@@ -25,25 +24,29 @@ class User(UserMixin, Model):
         return Event.select().where(Event.user == self)
 
     @classmethod
-    def create_user(cls, username, email, password, avatar="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png", course="General", role="Student"):
+    def create_user(cls, username, email, role, password, avatar="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png", course="General"):
         try:
             cls.create(
                 username=username,
                 email=email,
+                role=role,
                 password=generate_password_hash(password),
                 course=course,
-                avatar=avatar,
-                role=role
+                avatar=avatar
             )
         except IntegrityError:
             raise ValueError("User already exists")
 
 
 class Event(Model):
-    student = CharField(default="Student Guy")
+    student = ForeignKeyField(
+    model=User,
+    backref='events',
+    null=True
+    )
     instructor = ForeignKeyField(
-        model=User,
-        backref='events'
+    model=User,
+    backref='events'
     )
     date = DateField()
     duration = CharField()
@@ -53,26 +56,18 @@ class Event(Model):
         database = DATABASE
 
     @classmethod
-    def create_event(cls, instructor, duration, date, student="Dude"):
+    def create_event(cls, instructor, duration, date):
         try:
             cls.create(
-                student=student,
                 instructor=instructor,
                 date=date,
                 duration=duration
             )
         except IntegrityError:
-            raise ValueError("Something broke")
-
-    # @classmethod
-    # def delete_event(cls):
-    #     try:
-    #         cls.delete(
-
-    #         )
-
+            raise
 
 def initialize():
     DATABASE.connect()
     DATABASE.create_tables([User, Event], safe=True)
     DATABASE.close()
+
