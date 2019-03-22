@@ -102,8 +102,6 @@ def create_event():
         return redirect(url_for('index'))
 
     if form.validate_on_submit():
-        print('in if')
-        print(form.duration.data)
         flash("Hooray, you registered!", 'success')
         models.Event.create_event(
             instructor=g.user.id,
@@ -125,10 +123,7 @@ def event():
 @app.route('/event/delete/<id>', methods=['DELETE','GET'])
 @login_required
 def event_delete(id):
-    print(id)
     found_event = Event.select().where(Event.id == id)
-    print(found_event)
-    print(found_event[0].instructor_id)
     if g.user.id == found_event[0].instructor_id:
         event_to_delete = Event.delete().where(Event.id == found_event[0].id)
         event_to_delete.execute()
@@ -136,7 +131,29 @@ def event_delete(id):
 
 @app.route('/event/update/<id>', methods=('POST','GET'))
 def event_update(id):
-    return redirect(url_for('event'))
+    form = forms.EditEventForm()
+    found_event = Event.select().where(Event.id == id)
+    if g.user.id == found_event[0].instructor_id:
+        if form.validate_on_submit():
+            # update_date = found_event[0].date = form.date.data
+            # update_duration = found_event[0].duration = form.duration.data
+            # update = Event.
+            # update_date = Event.update(found_event[0].date = new_date).where(Event.id == found_event[0].id)
+            # update_date.execute()
+            # update_duration = Event.update(found_event[0].duration = new_duration).where(Event.id == found_event[0].id)
+            # update_duration.execute()
+
+            # updates = Event(duration=form.duration.data, date=form.date.data, student=found_event[0].student_id, instructor=found_event[0].instructor_id)
+            # update_entry = Event.save().where(Event.id == id)
+            # update_entry.execute()
+            
+            update = Event.update(duration=form.duration.data, date=form.date.data).where(Event.id == id)
+            update.execute()
+
+        # return redirect(url_for('event'))
+
+    return render_template('edit_event.html', form=form, found_event=found_event[0],)
+                
 
 # ============ HOME PAGE ROUTE ============
 @app.route('/')

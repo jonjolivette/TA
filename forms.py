@@ -69,8 +69,20 @@ class CreateEventForm(Form):
         default="15"
     )
 
-class DeleteEventForm(Form):
-    id = StringField('id', validators=[DataRequired()])
+class EditEventForm(Form):
+    date = DateField(
+        'Date',
+        validators=[
+            DataRequired()
+        ],
+        format="%Y-%m-%d"
+    )
+    duration = SelectField(
+        'Duration',
+        choices=[("15", '15 Minutes'), ("30", '30 Minutes'), ("45", '45 Minutes')],
+        default="15"
+    )
+
 
 class LoginForm(Form):
     email = StringField('Email', validators=[DataRequired(), Email()])
