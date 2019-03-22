@@ -149,8 +149,7 @@ def event_update(id):
             
             update = Event.update(duration=form.duration.data, date=form.date.data).where(Event.id == id)
             update.execute()
-
-        # return redirect(url_for('event'))
+            return redirect(url_for('event'))
 
     return render_template('edit_event.html', form=form, found_event=found_event[0],)
                 
