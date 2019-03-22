@@ -3,7 +3,7 @@
 {% block content %}
     <div class="content-section">
         <form method="POST" action="">
-        {% comment %} protects from Cross Site Request Forgery aka CSRF {% endcomment %}
+        <!--protects from Cross Site Request Forgery aka CSRF -->
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Log In</legend>               
