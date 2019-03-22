@@ -4,10 +4,25 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="{{ url_for('static', filename='ta-logo.png')}}" />
-    <link rel=stylesheet media=all type=text/css href="{{ url_for('static', filename='hero.css')}}"> <link rel=stylesheet media=all type=text/css href="{{ url_for('static', filename='icon-fonts.css')}}">
     <title>TA: Teaching Assistant</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='ta-logo.png')}}" />
+
+    <!-- Nav css -->
+    <link rel="stylesheet" media="all" type="text/css" href="{{ url_for('static', filename='./css/_nav.css')}}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" media="all" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+
+    <!--Font Awesome css -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <!-- Main css -->
+    <link rel="stylesheet" media="all" type="text/css" href="{{ url_for('static', filename='./css/style.css')}}">
     </head>
   <body>
 
@@ -15,5 +30,6 @@
     {% block body %}
     {% endblock %}
     {% include '/_footer.html' %}
+    <script src=""></script>
   </body>
 </html>

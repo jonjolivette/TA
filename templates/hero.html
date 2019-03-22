@@ -1,22 +1,63 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<!-- Hero Video -->
-<section class="hero-fullscreen">
-  <div class="hero-parallax-fullscreen hero-video bg-video-1">
-    <video autoplay muted poster="static/ta_hero_dummy_content.gif" id="bgvid">
-      <source src="static/dummy-video.mp4" type="video/mp4" />
-      <source src="TRY TO CREATE AN ALTERNATE VERSION FOR OTHER BROWSERS" type="video/webm"/>
-    </video>
+<!-- Header starts here  -->
+    <header id="home" class="header-area">
+        <div class="table">
+            <div class="table-cell">
+                    <!-- Caption starts -->
+                    <div class="caption">
+                        <h1>TA</h1>
+                        <p>Teacher's Assistant</p>
+                        <a class="btn dark smooth_scroll" href="/login">Schedule Now</a>
+                    </div>
+                    <!-- Caption ends -->
 
-    <div class="hero-container container">
-      <div class="hero-content scroll-opacity">
-        <div class="appear container text-center">
-          <a href="#" class="btn btn-md btn-grey2 btn-scroll mt60">Schedule Now</a>
+            </div><!-- .table-cell -->
+        </div><!-- .table -->
+    </header>
+<!-- Header ends  -->
+
+<!-- Hero Info Blocks Start -->
+    <section id="info" class="info-area section">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="section-title">
+                        <h2>TEACHER'S ASSISTANT</h2>
+                        <p>
+                            Let your Teacher's Assistant App help you schedule meetings with Instructor and TAs today.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+
+                <!-- Info Block One -->
+                <div class="single-info col-md-4 col-sm-6">
+                    <i class="fa fa-graduation-cap"></i>
+                    <h4>Student's</h4>
+                    <p>Login to view the time slots available on our calendar then pick a time and schedule your one on one meeting with a simple click.</p>
+                </div>
+
+                <!-- Info Block Two -->
+                <div class="single-info col-md-4 col-sm-6">
+                    <i class="fa fa-cog"></i>
+                    <h4>Teacher's</h4>
+                    <p>Setup is easy. </br>Let T.A. know your availability and it’ll do the work for you.</p>
+                </div>
+
+                <!-- Info Block Three -->
+                <div class="single-info col-md-4 col-sm-6">
+                    <i class="fa fa-question-circle"></i>
+                    <h4>Learn More</h4>
+                    <p>We take the work out of connecting with others so you can accomplish more. <a href="">Learn</a> how painless scheduling can be with Calendly.</p>
+                </div>
+                <!--Info Block Three End -->
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+    </section>
 {% endblock %}

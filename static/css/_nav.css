@@ -1,0 +1,50 @@
+.sticky-menu {
+  background: #555;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+}
+
+.mainmenu {
+  margin-top: 10px;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+}
+
+.sticky-menu .mainmenu {
+  margin-top: 0px;
+}
+
+.navbar {
+  margin-bottom: 0;
+  border: 0px;
+}
+
+.navbar-brand img {
+  display: block;
+  height: 180% !important;
+  margin-top: -10px;
+}
+
+.navbar-nav li {
+  float: none;
+  display: inline-block;
+}
+
+.navbar-nav li a {
+  color: #bbb;
+  letter-spacing: 3px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.nav > li > a:hover,
+.nav > li > a:active,
+.nav > li > a:focus {
+  background: none;
+  color: #bbb;
+}
+
+.mainmenu .navbar-nav li.active a {
+  color: #fff;
+  font-weight: 600;
+}

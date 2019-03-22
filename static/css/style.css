@@ -1,0 +1,386 @@
+/* ----------------------------------------------------------------------------------------
+*                                        Global
+* -------------------------------------------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: #333;
+  font-weight: 300;
+  width: 100%;
+  height: 100%;
+  font-size: 17px;
+  line-height: 32px;
+  letter-spacing: 1.2px;
+  font-family: "Lato", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
+h4 {
+  letter-spacing: 3px;
+  font-size: 16px;
+}
+
+p {
+  line-height: 32px;
+  letter-spacing: 1.2px;
+}
+
+a {
+  text-decoration: none;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+
+a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:focus {
+  outline: none;
+  text-decoration: none;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  border: 0 none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn.focus:active,
+.btn:active:focus,
+.btn:focus {
+  outline: none;
+}
+
+.btn,
+input[type="submit"] {
+  display: inline-block;
+  background: transparent;
+  padding: 10px 25px;
+  border: 1px solid #bbb;
+  color: #333;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 5px;
+  border-radius: 0px;
+  transition: 0.3s;
+  -moz-transition: 0.3s;
+  -webkit-transition: 0.3s;
+}
+
+.btn:hover,
+input[type="submit"]:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.btn.dark {
+  color: #bbb;
+}
+
+.btn.dark:hover {
+  background-color: #bbb;
+  color: #000;
+}
+
+.section {
+  padding: 70px 0px;
+}
+
+.section-title {
+  color: #333;
+  margin: auto;
+  max-width: 800px;
+  margin-bottom: 70px;
+  letter-spacing: 5px;
+}
+
+.section-title h2 {
+  font-size: 30px;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 25px;
+  line-height: 35px;
+  position: relative;
+  margin-top: 0;
+  padding-bottom: 20px;
+}
+
+.section-title h2:before {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 2px;
+  margin-left: -40px;
+  left: 50%;
+  bottom: 0px;
+  background-color: #555;
+}
+
+.section-title p {
+  margin-top: 25px;
+}
+
+h3.subtitle {
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+h3.subtitle:before {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 1px;
+  left: 0;
+  bottom: 0px;
+  background-color: #555;
+}
+
+.table {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+.table-cell {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* ----------------------------------------------------------------------------------------
+*                                Navigation area
+* --------------------------------------------------------------------------------------- */
+.sticky-menu {
+  background: #555;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+}
+
+.mainmenu {
+  margin-top: 10px;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+}
+
+.sticky-menu .mainmenu {
+  margin-top: 0px;
+}
+
+.navbar {
+  margin-bottom: 0;
+  border: 0px;
+}
+
+.navbar-brand {
+  display: block;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.navbar-nav li {
+  float: none;
+  display: inline-block;
+}
+
+.navbar-nav li a {
+  color: #bbb;
+  letter-spacing: 3px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.nav > li > a:hover,
+.nav > li > a:active,
+.nav > li > a:focus {
+  background: none;
+  color: #bbb;
+}
+
+.mainmenu .navbar-nav li.active a {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------------------------------
+*                                Header area
+* -------------------------------------------------------------------------------------- */
+
+.header-area {
+  height: 100%;
+  min-height: 500px;
+  position: relative;
+  background-image: url(../ta_hero_dummy_content.gif);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.header-area:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.caption {
+  position: relative;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.caption h1 {
+  font-size: 40px;
+  letter-spacing: 5px;
+  margin: 0;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.caption p {
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  font-size: 15px;
+}
+
+.caption .btn {
+  margin: 15px 10px;
+}
+
+.caption h1,
+.caption p {
+  color: #bbb;
+}
+
+/* ----------------------------------------------------------------------------------------
+*                                    Hero Info area
+* --------------------------------------------------------------------------------------- */
+
+.info-area {
+  background-color: #fbfbfb;
+}
+
+.single-info {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.single-info i.fa {
+  display: block;
+  color: #555;
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.single-info h4 {
+  position: relative;
+  color: #333;
+  width: 100%;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.single-info h4:before {
+  content: "";
+  position: absolute;
+  background-color: #333;
+  width: 40px;
+  height: 1px;
+  margin-left: -20px;
+  bottom: 0;
+  transition: width 0.2s;
+  left: 50%;
+}
+
+.fa-cog {
+  -webkit-animation: rotation 4s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+/* ----------------------------------------------------------------------------------------
+*                                    Footer area
+* --------------------------------------------------------------------------------------- */
+.footer-area {
+  background: #0000c9;
+  padding: 50px 0px;
+  color: #f8f8f8;
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  .social-links {
+    float: right;
+  }
+}
+
+.social-links li {
+  list-style: none;
+  float: left;
+  margin-right: 10px;
+}
+
+.social-links li a i {
+  color: #bbb;
+  border: 1px solid #bbb;
+  width: 40px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  transition: 0.3s;
+  -moz-transition: 0.3s;
+  -webkit-transition: 0.3s;
+}
+
+.social-links li a:hover i {
+  color: #555;
+  background-color: #bbb;
+}
+
+@media (max-width: 767px) {
+  .footer-area {
+    text-align: center;
+  }
+  .footer-area .social-links {
+    float: none;
+    display: table;
+    margin: auto;
+  }
+}

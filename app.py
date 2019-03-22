@@ -50,7 +50,7 @@ def after_request(response):
     g.db.close()
     return response
 
-
+# ============ REGISTRATION PAGE ROUTE ============
 @app.route('/register', methods=('GET', 'POST'))
 def register():
     form = forms.RegisterForm()
@@ -67,6 +67,7 @@ def register():
     return render_template('register.html', form=form)
 
 
+# ============ LOGIN PAGE ROUTE ============
 @app.route('/login', methods=('GET', 'POST'))
 def login():
     form = forms.LoginForm()
@@ -86,12 +87,16 @@ def login():
     return render_template('login.html', form=form)
 
 
+# ============ LOGOUT PAGE ROUTE ============
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash("You've been logged out", "success")
     return redirect(url_for('index'))
+
+# ============ EVENT CREATE ROUTE ============
 
 
 @app.route('/event/create', methods=('GET', 'POST'))
@@ -114,13 +119,15 @@ def create_event():
 
 # ============ EVENT PAGE ROUTE ============
 
+
 @app.route('/event',  methods=('GET', 'POST'))
 @login_required
 def event():
     events = Event.select()
     return render_template('event.html', events=events)
 
-@app.route('/event/delete/<id>', methods=['DELETE','GET'])
+
+@app.route('/event/delete/<id>', methods=['DELETE', 'GET'])
 @login_required
 def event_delete(id):
     found_event = Event.select().where(Event.id == id)
@@ -129,18 +136,20 @@ def event_delete(id):
         event_to_delete.execute()
     return redirect(url_for('event'))
 
-@app.route('/event/update/<id>', methods=('POST','GET'))
+
+@app.route('/event/update/<id>', methods=('POST', 'GET'))
 def event_update(id):
     form = forms.EditEventForm()
     found_event = Event.select().where(Event.id == id)
     if g.user.id == found_event[0].instructor_id:
         if form.validate_on_submit():
-            update = Event.update(duration=form.duration.data, date=form.date.data).where(Event.id == id)
+            update = Event.update(
+                duration=form.duration.data, date=form.date.data).where(Event.id == id)
             update.execute()
             return redirect(url_for('event'))
 
     return render_template('edit_event.html', form=form, found_event=found_event[0],)
-                
+
 
 # ============ HOME PAGE ROUTE ============
 @app.route('/')
@@ -157,6 +166,7 @@ def student_dash():
 @app.route('/teacher')
 def teacher_dash():
     return render_template('teacher-dashboard.html')
+
 
 if __name__ == '__main__':
     models.initialize()
