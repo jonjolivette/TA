@@ -107,12 +107,27 @@ def create_event():
         return redirect(url_for('index'))
 
     if form.validate_on_submit():
-        flash("Hooray, you registered!", 'success')
-        models.Event.create_event(
-            instructor=g.user.id,
-            date=form.date.data,
-            duration=form.duration.data,
-        )
+        instructor = current_user.id
+        date = form.date.data,
+        time = form.time.data,
+        locator = Event.select().where(
+            (Event.instructor == instructor) &
+            (Event.date == date) &
+            (Event.time == time))
+        # for row in locator:
+        #     print(row.instructor, row.date, row.time)
+        # print(locator)
+        print(locator)
+        if locator.count() == 0:
+            print("No event here, creating")
+            models.Event.create_event(
+                instructor=g.user.id,
+                date=form.date.data,
+                time=form.time.data,
+                duration=form.duration.data,
+            )
+        else:
+            print("Event already exists")
 
         # return redirect(url_for('index'))
     return render_template('create_event.html', form=form)
@@ -120,10 +135,11 @@ def create_event():
 # ============ EVENT PAGE ROUTE ============
 
 
+@app.route('/event/',  methods=('GET', 'POST'))
 @app.route('/event',  methods=('GET', 'POST'))
 @login_required
 def event():
-    events = Event.select()
+    events = Event.select().order_by(Event.date, Event.time)
     return render_template('event.html', events=events)
 
 
@@ -143,8 +159,9 @@ def event_update(id):
     found_event = Event.select().where(Event.id == id)
     if g.user.id == found_event[0].instructor_id:
         if form.validate_on_submit():
+            time_and_date = form.date.data + form.time.data
             update = Event.update(
-                duration=form.duration.data, date=form.date.data).where(Event.id == id)
+                duration=form.duration.data, date=time_and_date).where(Event.id == id)
             update.execute()
             return redirect(url_for('event'))
 
@@ -155,9 +172,20 @@ def event_update(id):
 def add_student_to_event(id):
     found_event = Event.select().where(Event.id == id)
     if found_event[0].student == None:
-        add_student = Event.update(
-            student=current_user.id).where(Event.id == id)
+        add_student = Event.update(student=current_user.id).where(Event.id == id)
         add_student.execute()
+        lock_events = User.update(event_assigned=True).where(User.id == current_user.id)
+        lock_events.execute()
+    return redirect(url_for('event'))
+
+@app.route('/event/remove_student/<id>', methods=('POST', 'GET'))
+def remove_student_from_event(id):
+    found_event = Event.select().where(Event.id == id)
+    if found_event[0].student == current_user:
+        remove_student = Event.update(student_id=None).where(Event.id == id)
+        remove_student.execute()
+        unlock_events = User.update(event_assigned=False).where(User.id == current_user.id)
+        unlock_events.execute()
     return redirect(url_for('event'))
 
 
@@ -185,22 +213,29 @@ if __name__ == '__main__':
             username='jimbo',
             email="jim@jim.com",
             password='password',
-            course="test",
+            course="General",
             role="Instructor"
         )
         models.User.create_user(
             username='joe student',
             email="joe@student.com",
             password='password',
-            course="test",
+            course="General",
             role="Student"
         )
         models.User.create_user(
             username='walrus',
             email="thewalrus@tusk.com",
             password='password',
-            course="test",
+            course="General",
             role="Instructor"
+        )
+        models.User.create_user(
+            username='rando calrissian',
+            email="rando@student.com",
+            password='password',
+            course="General",
+            role="Student"
         )
     except ValueError:
         pass

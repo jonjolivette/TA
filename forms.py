@@ -1,8 +1,11 @@
 from flask_wtf import FlaskForm as Form
 
 from models import User
+import datetime
+import moment
+import time
 
-from wtforms import StringField, PasswordField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, TimeField
 
 from wtforms.fields.html5 import DateField, DateTimeField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
@@ -42,6 +45,11 @@ class RegisterForm(Form):
         choices=[("Student","Student"), ("Instructor","Instructor")],
         default="Student"
     )
+    course = SelectField(
+        'Course',
+        choices=[("General", 'General'), ("WDI 51", 'WDI 51'), ("WDI 52", 'WDI 52')],
+        default="General"
+    )
     password = PasswordField(
         'Password',
         validators=[
@@ -60,10 +68,14 @@ class RegisterForm(Form):
 class CreateEventForm(Form):
     date = DateField(
         'Date',
+        default=moment.utcnow(),
         validators=[
             DataRequired()
         ],
-        # format="%Y-%m-%d"
+    )
+    time = SelectField(
+        'Time',
+        choices=[("16:00", '4:00PM'), ("16:15", '4:15PM'), ("16:30", '4:30PM'), ("16:45", '4:45PM'), ("17:00", '5:00PM')],
     )
     duration = SelectField(
         'Duration',
