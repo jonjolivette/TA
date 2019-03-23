@@ -1,5 +1,6 @@
 import os
 import secrets
+from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
@@ -77,8 +78,13 @@ def save_picture(form_picture):
     picture_fn = random_hex + f_ext
     # full path where image will be saved. full path of project directory
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+     # sets image resize with pillow
+    output_size = (500, 500)
+    # open image we passed into the function
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
     #saves at picture_path on file system
-    form_picture.save(picture_path)
+    i.save(picture_path)
     # return value to user
     return picture_fn
 
