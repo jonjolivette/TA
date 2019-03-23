@@ -1,38 +1,60 @@
-<div class="menu-area navbar-fixed-top">
-        <div class="container">
-            <div class="row">
+<!-- ----------------------------------------------------------------------------------------
+* Authors        : Jonathan Jolivette | Matt Freeland | Enrique Morales
+* Template Name : TA | Teacher's Assistant
+* File          : TA NAV BAR TEMPLATE
+* App Version   : 1.0
+---------------------------------------------------------------------------------------- */ -->
 
-                <!-- Navigation starts -->
-                <div class="col-md-12">
-                    <div class="mainmenu">
-                        <div class="navbar navbar-nobg">
-                            <div class="navbar-header">
-                                <a class="navbar-brand" href="/"><img src="static/ta-logo.png" alt="Bright Red Teacher's Assistant Logo, letters T and A"></a>
-                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-
-                            <div class="navbar-collapse collapse">
-                                <nav>
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <li><a class="smooth_scroll" href="#home">HOME</a></li>
-                                        <li><a class="smooth_scroll" href="/login">LOGIN</a></li>
-                                        <li><a class="smooth_scroll" href="/register">REGISTER</a></li>
-                                        <li><a class="smooth_scroll" href="/student">STUDENT</a></li>
-                                        <li><a class="smooth_scroll" href="/teacher">TEACHER</a></li>
-                                        <li><a class="smooth_scroll" href="/logout">LOGOUT</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Navigation ends -->
-
+{% block navbar %}
+<!-- Navigation area starts -->
+<div class="menu-area navbar-fixed-top nav-bg transition top">
+  <div class="container">
+    <div class="row">
+      <!-- Navigation starts -->
+      <div class="col-md-12">
+        <div class="mainmenu">
+          <div class="navbar navbar-nobg">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="index.html"
+                ><img src="./static/ta-logo.png"
+              /></a>
+              <button
+                type="button"
+                class="navbar-toggle"
+                data-toggle="collapse"
+                data-target=".navbar-collapse"
+              >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
             </div>
+
+            <div class="navbar-collapse collapse">
+              <nav>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a class="smooth_scroll" href="/">HOME</a></li>
+                  <li>
+                    <a class="smooth_scroll" href="/register">REGISTER</a>
+                  </li>
+                  <li><a class="smooth_scroll" href="/login">LOGIN</a></li>
+                  <li>
+                    <a class="smooth_scroll" href="/student">STUDENT DASH</a>
+                  </li>
+                  <li>
+                    <a class="smooth_scroll" href="/teacher">TEACHER DASH</a>
+                  </li>
+                  <li><a class="smooth_scroll" href="/logout">LOGOUT</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
         </div>
+      </div>
+      <!-- Navigation ends -->
     </div>
+  </div>
+</div>
+<!-- Navigation area ends -->
+{% endblock navbar %}
