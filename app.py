@@ -107,17 +107,10 @@ def create_event():
         return redirect(url_for('index'))
 
     if form.validate_on_submit():
-        instructor = current_user.id
-        date = form.date.data,
-        time = form.time.data,
         locator = Event.select().where(
-            (Event.instructor == instructor) &
-            (Event.date == date) &
-            (Event.time == time))
-        # for row in locator:
-        #     print(row.instructor, row.date, row.time)
-        # print(locator)
-        print(locator)
+            (Event.instructor == current_user.id) &
+            (Event.date == form.date.data) &
+            (Event.time == form.time.data))
         if locator.count() == 0:
             print("No event here, creating")
             models.Event.create_event(
@@ -146,9 +139,12 @@ def event():
 @app.route('/event/delete/<id>', methods=['DELETE', 'GET'])
 @login_required
 def event_delete(id):
-    found_event = Event.select().where(Event.id == id)
-    if g.user.id == found_event[0].instructor_id:
-        event_to_delete = Event.delete().where(Event.id == found_event[0].id)
+    found_event = models.Event.get(models.Event.id == id)
+    if g.user.id == found_event.instructor_id:
+        if found_event.student != None:
+            unlock_student = User.update(event_assigned = False).where(User.id == found_event.student)
+            unlock_student.execute()
+        event_to_delete = Event.delete().where(Event.id == found_event.id)
         event_to_delete.execute()
     return redirect(url_for('event'))
 
