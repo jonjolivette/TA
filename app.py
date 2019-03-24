@@ -1,3 +1,10 @@
+# ----------------------------------------------------------------------------------------
+# Authors: Jonathan Jolivette | Matt Freeland | Enrique Morales
+# Template Name: TA | Teacher's Assistant
+# File: TA | APP.PY (MAIN FILE)
+# App Version: 1.0
+# ----------------------------------------------------------------------------------------
+
 # from flask import render_template
 from flask import Flask, g
 from flask import render_template, flash, redirect, url_for
@@ -17,6 +24,10 @@ import forms
 DEBUG = True
 PORT = 8000
 
+# can bootstrap wrap the app and in turn cover the entire app where all
+# templates are under the influence of bootstrap with the need for
+# any cdn or linking to downloaded files/folders????
+# Bootstrap(app)
 
 app = Flask(__name__)
 app.config.from_object(Config)
