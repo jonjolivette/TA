@@ -1,4 +1,5 @@
 import datetime
+import time
 from peewee import *
 import moment
 
@@ -14,8 +15,9 @@ class User(UserMixin, Model):
     role = CharField()
     password = CharField(max_length=100)
     joined_at = DateTimeField(default=datetime.datetime.now)
-    course = CharField(default="General")
+    course = CharField()
     avatar = CharField(default="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png")
+    event_assigned = BooleanField(default=False)
 
     class Meta:
         database = DATABASE
@@ -24,12 +26,13 @@ class User(UserMixin, Model):
         return Event.select().where(Event.user == self)
 
     @classmethod
-    def create_user(cls, username, email, role, password, avatar="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png", course="General"):
+    def create_user(cls, username, email, role, password, event_assigned=False, avatar="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png", course="General"):
         try:
             cls.create(
                 username=username,
                 email=email,
                 role=role,
+                event_assigned=event_assigned,
                 password=generate_password_hash(password),
                 course=course,
                 avatar=avatar
@@ -48,20 +51,21 @@ class Event(Model):
     model=User,
     backref='events'
     )
-    date = DateTimeField()
-    duration = CharField()
+    date = DateField(default=moment.utcnow())
+    time = TimeField(default=datetime.time(14,0,0))
+    duration = CharField(default="15")
     notes = CharField(max_length=256, default="Bleep Bloop")
 
     class Meta:
         database = DATABASE
 
     @classmethod
-    def create_event(cls, instructor, duration, date):
+    def create_event(cls, instructor, date, time):
         try:
             cls.create(
                 instructor=instructor,
                 date=date,
-                duration=duration
+                time=time
             )
         except IntegrityError:
             raise

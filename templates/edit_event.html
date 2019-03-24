@@ -2,7 +2,12 @@
 
 <a href="/event">Return to Events</a>
 <h3>Event - {{ found_event }}</h3>
+{% if found_event.student != None %}
 <p>Student = {{ found_event.student.username }}</p>
+{% endif %}
+{% if found_event.student == None %}
+<p>No Student Scheduled</p>
+{% endif %}
 <p>Date = {{ found_event.date }}</p>
 <p>Duration = {{ found_event.duration }} Minutes</p>
 <form method="POST" action="" class="form">
@@ -11,4 +16,5 @@
         {{ render_field(field) }}
     {% endfor %}
     <button type="submit" id="submit">Update Event</button>
+    
 </form>

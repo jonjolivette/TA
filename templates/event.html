@@ -1,19 +1,39 @@
 <div class="events">
   <h2>Events!</h2>
-  <a href="/event/create">Create New Event</a> <a href="/">Home</a>
+  <h3>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class={{category}}>{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+  </h3>
+  {% if current_user.role == "Instructor" %}
+  <a href="/event/create">Create New Event</a>
+  {% endif %}
+  <a href="/">Home</a>
   <p>Signed in as {{ current_user.username }}</p>
   {% for event in events %}
-  <!-- Populate all events if user course matches instructor course -->
-  {% if current_user.course == event.instructor.course %}
-  <p>Meeting with {{ event.student.username }}, on {{ event.date }} instructor {{event.instructor.username}} - Event ID:{{ event }}</p>  
+  <!-- Populate all events if user course matches instructor course and there are no students assigned -->
+  {% if current_user.course == event.instructor.course and event.student == None  %}
+  <p>Open time on {{ event.date }} at {{ event.time }} with instructor {{event.instructor.username}} - Event ID:{{ event }}</p>  
+  {% endif %}
+   <!-- populate all events as above, but, booked with a student -->
+  {% if current_user.course == event.instructor.course and event.student != None %}
+  <p>Meeting with {{ event.student.username }}, on {{ event.date }} with instructor {{event.instructor.username}} - Event ID:{{ event }}</p>  
   {% endif %}
   <!-- Adds delete/edit buttons if the logged in user is the instructor for the event -->
   {% if current_user == event.instructor %}
   <a href="{{ url_for('event_delete', id=event.id) }}" class="delete_button">Delete</a> <a href="{{ url_for('event_update', id=event.id) }}" class="edit_button">Edit</a>
   {% endif %}
-  <!-- Adds a Signup button to the event if there is no student assigned and they are not an instructor themselves -->
-  {% if event.student == None %}
+  <!-- Adds a Signup button to the event if there is no student assigned, they havent assigned an event yet and they are not an instructor themselves -->
+  {% if event.student == None and current_user.role != "Instructor" and current_user.event_assigned == False and current_user.course == event.instructor.course %}
   <a href="{{ url_for('add_student_to_event', id=event.id) }}" class="add_student">Sign Up</a>
+  {% endif %}
+  <!-- Adds button to remove yourself from an event -->
+  {% if event.student == current_user and current_user.course == event.instructor.course %}
+  <a href="{{ url_for('remove_student_from_event', id=event.id) }}" class="remove_student">Unschedule Event</a>
   {% endif %}
 
   {% endfor %}

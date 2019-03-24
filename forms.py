@@ -1,8 +1,11 @@
 from flask_wtf import FlaskForm as Form
 
 from models import User
+import datetime
+import moment
+import time
 
-from wtforms import StringField, PasswordField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, TimeField
 
 from wtforms.fields.html5 import DateField, DateTimeField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
@@ -37,10 +40,15 @@ class RegisterForm(Form):
             Email(),
             email_exists
         ])
-    role = SelectField(
-        'role',
-        choices=[("Student","Student"), ("Instructor","Instructor")],
-        default="Student"
+    # role = SelectField(
+    #     'role',
+    #     choices=[("Student","Student"), ("Instructor","Instructor")],
+    #     default="Student"
+    # )
+    course = SelectField(
+        'Course',
+        choices=[("General", 'General'), ("WDI 51", 'WDI 51'), ("WDI 52", 'WDI 52')],
+        default="General"
     )
     password = PasswordField(
         'Password',
@@ -60,29 +68,27 @@ class RegisterForm(Form):
 class CreateEventForm(Form):
     date = DateField(
         'Date',
+        default=moment.utcnow(),
         validators=[
             DataRequired()
         ],
-        # format="%Y-%m-%d"
     )
-    duration = SelectField(
-        'Duration',
-        choices=[("15", '15 Minutes'), ("30", '30 Minutes'), ("45", '45 Minutes')],
-        default="15"
+    time = SelectField(
+        'Time',
+        choices=[("4:00 PM", '4:00 PM'), ("4:15 PM", '4:15 PM'), ("4:30 PM", '4:30 PM'), ("4:45 PM", '4:45 PM'), ("5:00 PM", '5:00 PM')],
     )
 
 class EditEventForm(Form):
     date = DateField(
         'Date',
+        default=moment.utcnow(),
         validators=[
             DataRequired()
         ],
-        format="%Y-%m-%d"
     )
-    duration = SelectField(
-        'Duration',
-        choices=[("15", '15 Minutes'), ("30", '30 Minutes'), ("45", '45 Minutes')],
-        default="15"
+    time = SelectField(
+        'Time',
+        choices=[("4:00 PM", '4:00 PM'), ("4:15 PM", '4:15 PM'), ("4:30 PM", '4:30 PM'), ("4:45 PM", '4:45 PM'), ("5:00 PM", '5:00 PM')],
     )
 
 
