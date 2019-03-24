@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+<!-- Avatar  -->
 <div class="content-section">
     <div class="media">
         <img class="rounded-circle account-img" src="{{ image_file }}">
@@ -10,6 +11,7 @@
     </div>
   <!-- FORM HERE -->
         <form method="POST" action="" enctype="multipart/form-data">
+        <!-- protects from form attacks -->
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Account Info</legend>
