@@ -40,11 +40,11 @@ class RegisterForm(Form):
             Email(),
             email_exists
         ])
-    role = SelectField(
-        'role',
-        choices=[("Student","Student"), ("Instructor","Instructor")],
-        default="Student"
-    )
+    # role = SelectField(
+    #     'role',
+    #     choices=[("Student","Student"), ("Instructor","Instructor")],
+    #     default="Student"
+    # )
     course = SelectField(
         'Course',
         choices=[("General", 'General'), ("WDI 51", 'WDI 51'), ("WDI 52", 'WDI 52')],
@@ -77,11 +77,11 @@ class CreateEventForm(Form):
         'Time',
         choices=[("16:00", '4:00PM'), ("16:15", '4:15PM'), ("16:30", '4:30PM'), ("16:45", '4:45PM'), ("17:00", '5:00PM')],
     )
-    duration = SelectField(
-        'Duration',
-        choices=[("15", '15 Minutes'), ("30", '30 Minutes'), ("45", '45 Minutes')],
-        default="15"
-    )
+    # duration = SelectField(
+    #     'Duration',
+    #     choices=[("15", '15 Minutes'), ("30", '30 Minutes'), ("45", '45 Minutes')],
+    #     default="15"
+    # )
 
 class EditEventForm(Form):
     date = DateField(

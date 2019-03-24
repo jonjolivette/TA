@@ -19,11 +19,11 @@
   <a href="{{ url_for('event_delete', id=event.id) }}" class="delete_button">Delete</a> <a href="{{ url_for('event_update', id=event.id) }}" class="edit_button">Edit</a>
   {% endif %}
   <!-- Adds a Signup button to the event if there is no student assigned, they havent assigned an event yet and they are not an instructor themselves -->
-  {% if event.student == None and current_user.role != "Instructor" and current_user.event_assigned == False %}
+  {% if event.student == None and current_user.role != "Instructor" and current_user.event_assigned == False and current_user.course == event.instructor.course %}
   <a href="{{ url_for('add_student_to_event', id=event.id) }}" class="add_student">Sign Up</a>
   {% endif %}
   <!-- Adds button to remove yourself from an event -->
-  {% if event.student == current_user %}
+  {% if event.student == current_user and current_user.course == event.instructor.course %}
   <a href="{{ url_for('remove_student_from_event', id=event.id) }}" class="remove_student">Unschedule Event</a>
   {% endif %}
 

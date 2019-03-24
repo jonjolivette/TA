@@ -1,4 +1,4 @@
-# from flask import render_template
+# importing dependant libraries
 from flask import Flask, g
 from flask import render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -14,16 +14,16 @@ from models import User
 from models import Event
 import forms
 
+# set debug and port defaults
 DEBUG = True
 PORT = 8000
 
-
+# defining app and config files
 app = Flask(__name__)
 app.config.from_object(Config)
 
-
+# initializing the login manager module
 login_manager = LoginManager()
-# sets up our login for the app
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
@@ -56,12 +56,22 @@ def register():
     form = forms.RegisterForm()
     if form.validate_on_submit():
         flash("Hooray, you registered!", 'success')
-        models.User.create_user(
-            username=form.username.data,
-            email=form.email.data,
-            role=form.role.data,
-            password=form.password.data
-        )
+        if "ga.com" in form.email.data:
+            models.User.create_user(
+                username=form.username.data,
+                email=form.email.data,
+                role="Instructor",
+                password=form.password.data,
+                course=form.course.data
+            )
+        else:            
+            models.User.create_user(
+                username=form.username.data,
+                email=form.email.data,
+                role="Student",
+                password=form.password.data,
+                course=form.course.data
+            )
 
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
@@ -117,7 +127,6 @@ def create_event():
                 instructor=g.user.id,
                 date=form.date.data,
                 time=form.time.data,
-                duration=form.duration.data,
             )
         else:
             print("Event already exists")
@@ -156,8 +165,7 @@ def event_update(id):
     if g.user.id == found_event[0].instructor_id:
         if form.validate_on_submit():
             time_and_date = form.date.data + form.time.data
-            update = Event.update(
-                duration=form.duration.data, date=time_and_date).where(Event.id == id)
+            update = Event.update(date=time_and_date).where(Event.id == id)
             update.execute()
             return redirect(url_for('event'))
 

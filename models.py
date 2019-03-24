@@ -53,19 +53,18 @@ class Event(Model):
     )
     date = DateField(default=moment.utcnow())
     time = TimeField(default=datetime.time(14,0,0))
-    duration = CharField()
+    duration = CharField(default="15")
     notes = CharField(max_length=256, default="Bleep Bloop")
 
     class Meta:
         database = DATABASE
 
     @classmethod
-    def create_event(cls, instructor, duration, date, time):
+    def create_event(cls, instructor, date, time):
         try:
             cls.create(
                 instructor=instructor,
                 date=date,
-                duration=duration,
                 time=time
             )
         except IntegrityError:
