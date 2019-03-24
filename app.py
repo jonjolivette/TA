@@ -133,14 +133,16 @@ def create_event():
             (Event.date == form.date.data) &
             (Event.time == form.time.data))
         if locator.count() == 0:
-            print("No event here, creating")
+            flash("Created New Event","success")
             models.Event.create_event(
                 instructor=g.user.id,
                 date=form.date.data,
                 time=form.time.data,
             )
+            return redirect(url_for("event"))
         else:
-            print("Event already exists")
+            flash("Event already exists","error")
+            return redirect(url_for("event"))
 
     return render_template('create_event.html', form=form)
 
@@ -155,6 +157,9 @@ def event_delete(id):
             unlock_student.execute()
         event_to_delete = Event.delete().where(Event.id == found_event.id)
         event_to_delete.execute()
+        flash("Deleted event successfully","error")
+    else:
+        flash("You don't have permission to delete this event.","error")
     return redirect(url_for('event'))
 
 # UPDATE
@@ -164,10 +169,23 @@ def event_update(id):
     found_event = Event.get(Event.id == id)
     if g.user.id == found_event.instructor_id:
         if form.validate_on_submit():
-            update = Event.update(date=form.date.data, time=form.time.data).where(Event.id == id)
-            update.execute()
-            return redirect(url_for('event'))
-
+            if found_event.date != form.date.data and found_event.time != form.time.data:
+                locator = Event.select().where(
+                    (Event.instructor == current_user.id) &
+                    (Event.date == form.date.data) &
+                    (Event.time == form.time.data))
+                if locator.count() == 0:
+                    update = Event.update(date=form.date.data, time=form.time.data).where(Event.id == id)
+                    update.execute()
+                    flash("Updated Event Successfully","success")
+                    return redirect(url_for('event'))
+            else:
+                flash("Could not update, duplicate event exists","error")
+                return redirect(url_for('event'))
+                
+    else:
+        flash("You do not have permission to edit this event", "error")
+        return redirect(url_for('event'))
     return render_template('edit_event.html', form=form, found_event=found_event)
 
 # ADD STUDENT TO EVENT
@@ -181,8 +199,8 @@ def add_student_to_event(id):
         lock_events.execute()
         flash("Checked in for event", "success")
         return redirect(url_for('event'))
-
-    flash("Even already has a student assigned", "error")
+    else:
+        flash("Even already has a student assigned", "error")
     return redirect(url_for('event'))
 
 # REMOVE STUDENT FROM EVENT
@@ -195,8 +213,8 @@ def remove_student_from_event(id):
         unlock_events = User.update(event_assigned=False).where(User.id == current_user.id)
         unlock_events.execute()
         flash("Unscheduled successfully", "success")
-    
-    flash("Cannot unschedule other user events", "error")
+    else:
+        flash("Cannot unschedule other user events", "error")
     return redirect(url_for('event'))
 
 # ============ HOME PAGE ROUTE ============
