@@ -75,26 +75,20 @@ class CreateEventForm(Form):
     )
     time = SelectField(
         'Time',
-        choices=[("16:00", '4:00PM'), ("16:15", '4:15PM'), ("16:30", '4:30PM'), ("16:45", '4:45PM'), ("17:00", '5:00PM')],
+        choices=[("4:00 PM", '4:00 PM'), ("4:15 PM", '4:15 PM'), ("4:30 PM", '4:30 PM'), ("4:45 PM", '4:45 PM'), ("5:00 PM", '5:00 PM')],
     )
-    # duration = SelectField(
-    #     'Duration',
-    #     choices=[("15", '15 Minutes'), ("30", '30 Minutes'), ("45", '45 Minutes')],
-    #     default="15"
-    # )
 
 class EditEventForm(Form):
     date = DateField(
         'Date',
+        default=moment.utcnow(),
         validators=[
             DataRequired()
         ],
-        format="%Y-%m-%d"
     )
-    duration = SelectField(
-        'Duration',
-        choices=[("15", '15 Minutes'), ("30", '30 Minutes'), ("45", '45 Minutes')],
-        default="15"
+    time = SelectField(
+        'Time',
+        choices=[("4:00 PM", '4:00 PM'), ("4:15 PM", '4:15 PM'), ("4:30 PM", '4:30 PM'), ("4:45 PM", '4:45 PM'), ("5:00 PM", '5:00 PM')],
     )
 
 

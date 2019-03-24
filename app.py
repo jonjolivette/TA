@@ -43,7 +43,6 @@ def before_request():
     g.db.connect()
     g.user = current_user
 
-
 @app.after_request
 def after_request(response):
     """Close the database connection after each request."""
@@ -55,8 +54,8 @@ def after_request(response):
 def register():
     form = forms.RegisterForm()
     if form.validate_on_submit():
-        flash("Hooray, you registered!", 'success')
         if "ga.com" in form.email.data:
+            flash("Registered as an instructor", 'success')
             models.User.create_user(
                 username=form.username.data,
                 email=form.email.data,
@@ -64,7 +63,8 @@ def register():
                 password=form.password.data,
                 course=form.course.data
             )
-        else:            
+        else:    
+            flash("Registered as a student", 'success')        
             models.User.create_user(
                 username=form.username.data,
                 email=form.email.data,
@@ -88,7 +88,6 @@ def login():
             flash("your email or password doesn't match", "error")
         else:
             if check_password_hash(user.password, form.password.data):
-                # creates session
                 login_user(user)
                 flash("You've been logged in", "success")
                 return redirect(url_for('index'))
@@ -106,14 +105,26 @@ def logout():
     flash("You've been logged out", "success")
     return redirect(url_for('index'))
 
-# ============ EVENT CREATE ROUTE ============
+# ============ EVENT PAGE ROUTE ============
 
 
+@app.route('/event/',  methods=('GET', 'POST'))
+@app.route('/event',  methods=('GET', 'POST'))
+@login_required
+def event():
+    events = Event.select().order_by(Event.date, Event.time)
+    return render_template('event.html', events=events)
+
+
+# ============ EVENT CRUD ROUTES ============
+
+# CREATE
 @app.route('/event/create', methods=('GET', 'POST'))
-# @login_required
+@login_required
 def create_event():
     form = forms.CreateEventForm()
     if g.user.role != "Instructor":
+        flash("You must be an instructor to create events")
         return redirect(url_for('index'))
 
     if form.validate_on_submit():
@@ -131,20 +142,9 @@ def create_event():
         else:
             print("Event already exists")
 
-        # return redirect(url_for('index'))
     return render_template('create_event.html', form=form)
 
-# ============ EVENT PAGE ROUTE ============
-
-
-@app.route('/event/',  methods=('GET', 'POST'))
-@app.route('/event',  methods=('GET', 'POST'))
-@login_required
-def event():
-    events = Event.select().order_by(Event.date, Event.time)
-    return render_template('event.html', events=events)
-
-
+# DELETE
 @app.route('/event/delete/<id>', methods=['DELETE', 'GET'])
 @login_required
 def event_delete(id):
@@ -157,41 +157,47 @@ def event_delete(id):
         event_to_delete.execute()
     return redirect(url_for('event'))
 
-
+# UPDATE
 @app.route('/event/update/<id>', methods=('POST', 'GET'))
 def event_update(id):
     form = forms.EditEventForm()
-    found_event = Event.select().where(Event.id == id)
-    if g.user.id == found_event[0].instructor_id:
+    found_event = Event.get(Event.id == id)
+    if g.user.id == found_event.instructor_id:
         if form.validate_on_submit():
-            time_and_date = form.date.data + form.time.data
-            update = Event.update(date=time_and_date).where(Event.id == id)
+            update = Event.update(date=form.date.data, time=form.time.data).where(Event.id == id)
             update.execute()
             return redirect(url_for('event'))
 
-    return render_template('edit_event.html', form=form, found_event=found_event[0])
+    return render_template('edit_event.html', form=form, found_event=found_event)
 
-
+# ADD STUDENT TO EVENT
 @app.route('/event/add_student/<id>', methods=('POST', 'GET'))
 def add_student_to_event(id):
-    found_event = Event.select().where(Event.id == id)
-    if found_event[0].student == None:
+    found_event = Event.get(Event.id == id)
+    if found_event.student == None:
         add_student = Event.update(student=current_user.id).where(Event.id == id)
         add_student.execute()
         lock_events = User.update(event_assigned=True).where(User.id == current_user.id)
         lock_events.execute()
+        flash("Checked in for event", "success")
+        return redirect(url_for('event'))
+
+    flash("Even already has a student assigned", "error")
     return redirect(url_for('event'))
 
+# REMOVE STUDENT FROM EVENT
 @app.route('/event/remove_student/<id>', methods=('POST', 'GET'))
 def remove_student_from_event(id):
-    found_event = Event.select().where(Event.id == id)
-    if found_event[0].student == current_user:
+    found_event = Event.get(Event.id == id)
+    if found_event.student == current_user:
         remove_student = Event.update(student_id=None).where(Event.id == id)
         remove_student.execute()
         unlock_events = User.update(event_assigned=False).where(User.id == current_user.id)
         unlock_events.execute()
+        flash("Unscheduled successfully", "success")
+    
+    flash("Cannot unschedule other user events", "error")
     return redirect(url_for('event'))
-
 
 # ============ HOME PAGE ROUTE ============
 @app.route('/')

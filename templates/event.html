@@ -7,7 +7,7 @@
   <p>Signed in as {{ current_user.username }}</p>
   {% for event in events %}
   <!-- Populate all events if user course matches instructor course and there are no students assigned -->
-  {% if current_user.course == event.instructor.course  %}
+  {% if current_user.course == event.instructor.course and event.student == None  %}
   <p>Open time on {{ event.date }} at {{ event.time }} with instructor {{event.instructor.username}} - Event ID:{{ event }}</p>  
   {% endif %}
    <!-- populate all events as above, but, booked with a student -->
