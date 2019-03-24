@@ -54,7 +54,7 @@ def after_request(response):
 def register():
     form = forms.RegisterForm()
     if form.validate_on_submit():
-        if "ga.com" in form.email.data:
+        if "generalassemb.ly" in form.email.data:
             flash("Registered as an instructor", 'success')
             models.User.create_user(
                 username=form.username.data,
