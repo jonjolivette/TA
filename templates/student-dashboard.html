@@ -1,14 +1,257 @@
-{% extends 'layout.html' %}
+<!-- /* ----------------------------------------------------------------------------------------
+* Authors       : Jonathan Jolivette | Matt Freeland | Enrique Morales
+* Template Name : TA | Teacher's Assistant
+* File          : TA STUDENT DASHBOARD TEMPLATE HTML FILES
+* App Version   : 1.0
+* ---------------------------------------------------------------------------------------- */ -->
 
 {% block body %}
-    <h1>STUDENT DASHBOARD PAGE</h1>
-    <h1>STUDENT DASHBOARD PAGE</h1>
-    <h1>STUDENT DASHBOARD PAGE</h1>
-    <h1>COMING VERY SOON</h1>
-    <h1>COMING VERY SOON</h1>
-    <h1>COMING VERY SOON</h1>
-    <h1>COMING VERY SOON</h1>
-    <h1>STUDENT DASHBOARD PAGE</h1>
-    <h1>STUDENT DASHBOARD PAGE</h1>
-    <h1>STUDENT DASHBOARD PAGE</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>TA - TEACHER'S ASSISTANT STUDENT DASHBOARD</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+      integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+      crossorigin="anonymous"
+    />
+    <!-- Custom CSS -->
+    <link
+      rel="stylesheet"
+      media="all"
+      type="text/css"
+      href="{{ url_for('static', filename='./css/student-dashboard.css')}}"
+    />
+
+    <!-- Font Awesome JS -->
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+      integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+      integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body class="bg">
+    <div class="wrapper">
+      <!-- Sidebar Holder -->
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <h3>TA Dashboard</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+          <p>{{studentName or instructorName}}</p>
+          <li class="active">
+            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a href="#">Profile</a>
+            <a
+              href="#pageSubmenu"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle"
+              >Instructors</a
+            >
+            <ul class="collapse list-unstyled" id="pageSubmenu">
+              <li>
+                <a href="#">Brock W.</a>
+              </li>
+              <li>
+                <a href="#">Isha</a>
+              </li>
+              <li>
+                <a href="#">Dalton</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Logout</a>
+          </li>
+        </ul>
+
+        <div class="list-unstyled CTAs">
+          <h6 class="blinking" style="text-align: center">
+            MESSENGER COMING SOON
+          </h6>
+        </div>
+      </nav>
+
+      <!-- Page Content Holder -->
+      <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="navbar-btn">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <button
+              class="btn btn-dark d-inline-block d-lg-none ml-auto"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <i class="fas fa-align-justify"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Brock</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Dalton</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Isha</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Emily</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <!--       TABLES       -->
+
+        <h2>TA EVENTS LISTED IN TABLES</h2>
+
+        <div class="row">
+          <div class="col-md-6">
+            <table class="table table-hover table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td colspan="2">Larry the Bird</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td colspan="2">Larry the Bird</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="line"></div>
+
+        <h2>FUTURE CALENDAR AREA</h2>
+        <p>
+          Calendar will be interactive and model after that of google calendar
+          app.
+        </p>
+
+        <div class="line"></div>
+
+        <h2>Course Information/Updates</h2>
+        <p>
+          Area dedicated to documents, notes, and others assets worth storing as
+          it relates to current course or overrall code related material for
+          quick/easy reference.
+        </p>
+
+        <div class="line"></div>
+
+        <h3>More Features Coming Soon</h3>
+        <p>...More Coming Soon...</p>
+      </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Popper.JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+      integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Bootstrap JS -->
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+      integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#sidebarCollapse").on("click", function() {
+          $("#sidebar").toggleClass("active");
+          $(this).toggleClass("active");
+        });
+      });
+    </script>
+  </body>
+</html>
 {% endblock %}
