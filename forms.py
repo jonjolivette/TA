@@ -87,22 +87,22 @@ class EditEventForm(Form):
 class UpdateAccountForm(Form):
     # means data is required and the min and max for it
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    # email = StringField('Email', validators=[DataRequired(), Email()])
     # Allows the following extensions to be uploaded as photos
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
 # These two methods below validate the updateAccount form not allowing an existent account to be created
-    def validate_username(self, username):
-        if username.data != current_user.username:
-            user = User.query.filter_by(username=username.data).all()
-            if user:
-                raise ValidationError('That username is taken. please choose a different one')
+    # def validate_username(self, username):
+    #     if username.data != current_user.username:
+    #         user = User.query.filter_by(username=username.data).all()
+    #         if user:
+    #             raise ValidationError('That username is taken. please choose a different one')
 
-    def validate_email(self, email):
-        if email.data != current_user.email:
-            user = User.query.filter_by(email=email.data).all()
-            if user:
-                raise ValidationError('That email is taken. please choose a different one')
+    # def validate_email(self, email):
+    #     if email.data != current_user.email:
+    #         user = User.query.filter_by(email=email.data).all()
+    #         if user:
+    #             raise ValidationError('That email is taken. please choose a different one')
 
 
 class LoginForm(Form):

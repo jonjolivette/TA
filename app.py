@@ -104,7 +104,7 @@ def login():
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash("You've been logged in", "success")
-                return redirect(url_for('index'))
+                return redirect(url_for('dashboard'))
             else:
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
@@ -207,12 +207,16 @@ def event_update(id):
 def add_student_to_event(id):
     found_event = Event.get(Event.id == id)
     if found_event.student == None:
-        add_student = Event.update(student=current_user.id).where(Event.id == id)
-        add_student.execute()
-        lock_events = User.update(event_assigned=True).where(User.id == current_user.id)
-        lock_events.execute()
-        flash("Checked in for event", "success")
-        return redirect(url_for('dashboard'))
+        if current_user.event_assigned == False:
+            add_student = Event.update(student=current_user.id).where(Event.id == id)
+            add_student.execute()
+            lock_events = User.update(event_assigned=True).where(User.id == current_user.id)
+            lock_events.execute()
+            flash("Checked in for event", "success")
+            return redirect(url_for('dashboard'))
+        else:
+            flash("You can only be assigned one event at a time")
+            return redirect(url_for('dashboard'))
     else:
         flash("Even already has a student assigned", "error")
     return redirect(url_for('dashboard'))
@@ -299,22 +303,24 @@ def dashboard():
     form = forms.UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:
-            # allows us to set users current image to profile picture
             picture_file = save_picture(form.picture.data)
             update_image = User.update(image_file=picture_file).where(User.id == current_user.id)
             update_image.execute()
-        # current_user.username = form.username.data
-        # current_user.email = form.email.data
-        # g.db.commit()
+        # update_profile = User.update(username=form.username.data)
+        # update_profile.execute()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('dashboard'))
     elif request.method == 'GET':
         form.username.data = current_user.username
-        form.email.data = current_user.email
         
     image_location = User.get(User.id == current_user.id)
-    decoded_location = image_location.image_file.decode()
-    image_file = url_for('static', filename='profile_pics/' + decoded_location)
+    if image_location.image_file != "default.png":
+        decoded_location = image_location.image_file.decode()
+        image_file = url_for('static', filename='profile_pics/' + decoded_location)
+    else:
+        image_file = url_for('static', filename='profile_pics/default.png')
+        
+
     return render_template('dashboard.html', events=events, title='Account', image_file=image_file, form=form)
 
 if __name__ == '__main__':

@@ -2,7 +2,7 @@
     <div class="media">
        <img class="rounded-circle account-img" src="{{ image_file }}">
         <div class="media-body">
-            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <h2 class="account-heading">{{ current_user.username }} - {{ current_user.role }}</h2>
             <p class="text-secondary">{{ current_user.email }}</p>
         </div>
     </div>
@@ -27,18 +27,6 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
-                    {{ form.email.label(class="form-control-label") }}
-                    <!--- Validates form and gives user feedback!!! -->
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }} </span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control form-control-lg")}}
-                    {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form.picture.label() }}

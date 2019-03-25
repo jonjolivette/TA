@@ -10,7 +10,7 @@ DATABASE = SqliteDatabase('ta.db')
 
 
 class User(UserMixin, Model):
-    username = CharField(unique=True)
+    username = CharField()
     email = CharField(unique=True)
     role = CharField()
     password = CharField(max_length=100)
