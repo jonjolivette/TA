@@ -34,18 +34,14 @@
             <div class="navbar-collapse collapse">
               <nav>
                 <ul class="nav navbar-nav navbar-right">
+                  {% if g.user.is_authenticated %}
+                  <li><a  href="/dashboard">HOME</a></li>
+                  <li><a  href="/logout">LOGOUT</a></li>
+                  {% else %}
                   <li><a  href="/">HOME</a></li>
-                  <li>
-                    <a  href="/register">REGISTER</a>
-                  </li>
                   <li><a  href="/login">LOGIN</a></li>
-                  <li>
-                    <a  href="/student">STUDENT DASH</a>
-                  </li>
-                  <li>
-                    <a  href="/teacher">TEACHER DASH</a>
-                  </li>
-                  <li><a  href="/login">LOGOUT</a></li>
+                  <li><a  href="/register">REGISTER</a></li>
+                  {% endif %}
                 </ul>
               </nav>
             </div>

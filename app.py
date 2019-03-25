@@ -153,10 +153,10 @@ def create_event():
                 date=form.date.data,
                 time=form.time.data,
             )
-            return redirect(url_for("event"))
+            return redirect(url_for("dashboard"))
         else:
             flash("Event already exists","error")
-            return redirect(url_for("event"))
+            return redirect(url_for("dashboard"))
 
     return render_template('create_event.html', form=form)
 
@@ -174,7 +174,7 @@ def event_delete(id):
         flash("Deleted event successfully","error")
     else:
         flash("You don't have permission to delete this event.","error")
-    return redirect(url_for('event'))
+    return redirect(url_for('dashboard'))
 
 # UPDATE
 @app.route('/event/update/<id>', methods=('POST', 'GET'))
@@ -199,7 +199,7 @@ def event_update(id):
 
     else:
         flash("You do not have permission to edit this event", "error")
-        return redirect(url_for('event'))
+        return redirect(url_for('dashboard'))
     return render_template('edit_event.html', form=form, found_event=found_event)
 
 # ADD STUDENT TO EVENT
@@ -212,10 +212,10 @@ def add_student_to_event(id):
         lock_events = User.update(event_assigned=True).where(User.id == current_user.id)
         lock_events.execute()
         flash("Checked in for event", "success")
-        return redirect(url_for('event'))
+        return redirect(url_for('dashboard'))
     else:
         flash("Even already has a student assigned", "error")
-    return redirect(url_for('event'))
+    return redirect(url_for('dashboard'))
 
 # REMOVE STUDENT FROM EVENT
 @app.route('/event/remove_student/<id>', methods=('POST', 'GET'))
@@ -229,7 +229,7 @@ def remove_student_from_event(id):
         flash("Unscheduled successfully", "success")
     else:
         flash("Cannot unschedule other user events", "error")
-    return redirect(url_for('event'))
+    return redirect(url_for('dashboard'))
 
 # ============ HOME PAGE ROUTE ============
 @app.route('/')
@@ -291,6 +291,31 @@ def account():
     decoded_location = image_location.image_file.decode()
     image_file = url_for('static', filename='profile_pics/' + decoded_location)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
+
+@app.route("/dashboard", methods=['GET','POST'])
+@login_required
+def dashboard():
+    events = Event.select().order_by(Event.date, Event.time)
+    form = forms.UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            # allows us to set users current image to profile picture
+            picture_file = save_picture(form.picture.data)
+            update_image = User.update(image_file=picture_file).where(User.id == current_user.id)
+            update_image.execute()
+        # current_user.username = form.username.data
+        # current_user.email = form.email.data
+        # g.db.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        
+    image_location = User.get(User.id == current_user.id)
+    decoded_location = image_location.image_file.decode()
+    image_file = url_for('static', filename='profile_pics/' + decoded_location)
+    return render_template('dashboard.html', events=events, title='Account', image_file=image_file, form=form)
 
 if __name__ == '__main__':
     models.initialize()
