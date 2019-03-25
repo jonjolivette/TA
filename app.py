@@ -233,6 +233,51 @@ def student_dash():
 def teacher_dash():
     return render_template('teacher-dashboard.html')
 
+# ============ Account update ROUTES ============
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    # function returns filename without ext and ext itself,,,, underscores are a python way to throw away variables or "ignore"
+    _, f_ext = os.path.splitext(form_picture.filename)
+    # ignore photo name and concat hex with extension
+    picture_fn = random_hex + f_ext
+    # full path where image will be saved. full path of project directory
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+     # sets image resize with pillow
+    output_size = (500, 500)
+    # open image we passed into the function
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    #saves at picture_path on file system
+    i.save(picture_path)
+    # return value to user
+    return picture_fn
+
+
+@app.route("/account", methods=['GET','POST'])
+@login_required
+def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            # allows us to set users current image to profile picture
+            picture_file = save_picture(form.picture.data)
+            update_image = User.update(image_file=picture_file).where(User.id == current_user.id)
+            update_image.execute()
+        # current_user.username = form.username.data
+        # current_user.email = form.email.data
+        # g.db.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        
+    image_location = User.get(User.id == current_user.id)
+    decoded_location = image_location.image_file.decode()
+    image_file = url_for('static', filename='profile_pics/' + decoded_location)
+    return render_template('account.html', title='Account', image_file=image_file, form=form)
 
 if __name__ == '__main__':
     models.initialize()
