@@ -16,7 +16,7 @@ class User(UserMixin, Model):
     password = CharField(max_length=100)
     joined_at = DateTimeField(default=datetime.datetime.now)
     course = CharField()
-    avatar = CharField(default="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png")
+    image_file = CharField(default="default.png")
     event_assigned = BooleanField(default=False)
 
     class Meta:
@@ -26,7 +26,7 @@ class User(UserMixin, Model):
         return Event.select().where(Event.user == self)
 
     @classmethod
-    def create_user(cls, username, email, role, password, event_assigned=False, avatar="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png", course="General"):
+    def create_user(cls, username, email, role, password, event_assigned=False, image_file="default.png", course="General"):
         try:
             cls.create(
                 username=username,
@@ -35,7 +35,7 @@ class User(UserMixin, Model):
                 event_assigned=event_assigned,
                 password=generate_password_hash(password),
                 course=course,
-                avatar=avatar
+                image_file=image_file
             )
         except IntegrityError:
             raise ValueError("User already exists")

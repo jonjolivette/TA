@@ -6,13 +6,15 @@
 # ----------------------------------------------------------------------------------------
 
 # from flask import render_template
-from flask import Flask, g
+from flask import Flask, g, request
 from flask import render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 from flask_bootstrap import Bootstrap
 from flask_fontawesome import FontAwesome
 from config import Config
+import secrets
+import os
 
 import moment
 
@@ -269,13 +271,14 @@ def save_picture(form_picture):
 @app.route("/account", methods=['GET','POST'])
 @login_required
 def account():
-    form = UpdateAccountForm()
+    form = forms.UpdateAccountForm()
     if form.validate_on_submit():
-        if form.picture.data:
+        # if form.picture.data:
             # allows us to set users current image to profile picture
-            picture_file = save_picture(form.picture.data)
-            update_image = User.update(image_file=picture_file).where(User.id == current_user.id)
-            update_image.execute()
+        picture_file = save_picture(form.picture.data)
+        print(picture_file)
+        update_image = User.update(image_file=picture_file).where(User.id == current_user.id)
+        update_image.execute()
         # current_user.username = form.username.data
         # current_user.email = form.email.data
         # g.db.commit()
@@ -286,8 +289,9 @@ def account():
         form.email.data = current_user.email
         
     image_location = User.get(User.id == current_user.id)
-    decoded_location = image_location.image_file.decode()
-    image_file = url_for('static', filename='profile_pics/' + decoded_location)
+    # decoded_location = image_location.image_file.decode()
+    print(image_location.image_file)
+    image_file = url_for('static', filename='profile_pics/' + image_location.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
 
 if __name__ == '__main__':
