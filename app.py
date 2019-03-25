@@ -1,4 +1,11 @@
-# importing dependant libraries
+# ----------------------------------------------------------------------------------------
+# Authors: Jonathan Jolivette | Matt Freeland | Enrique Morales
+# Template Name: TA | Teacher's Assistant
+# File: TA | APP.PY (MAIN FILE)
+# App Version: 1.0
+# ----------------------------------------------------------------------------------------
+
+# from flask import render_template
 from flask import Flask, g
 from flask import render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -18,7 +25,11 @@ import forms
 DEBUG = True
 PORT = 8000
 
-# defining app and config files
+# can bootstrap wrap the app and in turn cover the entire app where all
+# templates are under the influence of bootstrap with the need for
+# any cdn or linking to downloaded files/folders????
+# Bootstrap(app)
+
 app = Flask(__name__)
 app.config.from_object(Config)
 
@@ -63,8 +74,8 @@ def register():
                 password=form.password.data,
                 course=form.course.data
             )
-        else:    
-            flash("Registered as a student", 'success')        
+        else:
+            flash("Registered as a student", 'success')
             models.User.create_user(
                 username=form.username.data,
                 email=form.email.data,
@@ -182,7 +193,7 @@ def event_update(id):
             else:
                 flash("Could not update, duplicate event exists","error")
                 return redirect(url_for('event'))
-                
+
     else:
         flash("You do not have permission to edit this event", "error")
         return redirect(url_for('event'))

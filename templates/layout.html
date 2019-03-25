@@ -1,3 +1,10 @@
+<!-- ----------------------------------------------------------------------------------------
+* Authors        : Jonathan Jolivette | Matt Freeland | Enrique Morales
+* Template Name : TA | Teacher's Assistant
+* File          : TA LAYOUT TEMPLATE
+* App Version   : 1.0
+---------------------------------------------------------------------------------------- */ -->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -5,31 +12,71 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TA: Teaching Assistant</title>
+    <meta content="Python and Flask skills based student/tutor scheduling system for General Assembly students."
+      name="description">
+    <meta content="Jonathan Jolivette, Matt Freeland, Enrique Morales" name="author">
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='ta-logo.png')}}" />
-
-    <!-- Nav css -->
-    <link rel="stylesheet" media="all" type="text/css" href="{{ url_for('static', filename='./css/_nav.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='ta-logo-1.png')}}" />
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900"
+      rel="stylesheet"
+    />
 
     <!-- Bootstrap css -->
-    <link rel="stylesheet" media="all" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css')}}">
-
+    <link
+      rel="stylesheet"
+      media="all"
+      type="text/css"
+      href="{{ url_for('static', filename='./css/bootstrap.min.css')}}"
+    />
+    <!-- Animate css -->
+    <link
+      rel="stylesheet"
+      media="all"
+      type="text/css"
+      href="{{ url_for('static', filename='./css/animate.css')}}"
+    />
     <!--Font Awesome css -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
     <!-- Main css -->
-    <link rel="stylesheet" media="all" type="text/css" href="{{ url_for('static', filename='./css/style.css')}}">
-    </head>
+    <link
+      rel="stylesheet"
+      media="all"
+      type="text/css"
+      href="{{ url_for('static', filename='./css/style.css')}}"
+    />
+  </head>
   <body>
-
     {% include '/_nav.html' %}
     {% block body %}
     {% endblock %}
-    {% include '/_footer.html' %}
-    <script src=""></script>
+     {% include'/_footer.html' %}
+    <!--Jquery Latest Version as of 3.23.2019 -->
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+    <!-- <script src="jquery-3.3.1.min.js"></script> -->
+    <!-- Popper JS Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/esm/popper-utils.js" integrity="sha256-Va9aSmJNpHm6UtpqIuy0vf65KJ1kM8KmtpD2CVkKiec=" crossorigin="anonymous"></script>
+    <!-- Tether JS Library -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.4/js/tether.js"
+      integrity="sha256-UvX/d5APTBWe86FDu8HBycE3bia4gbZAxHAyXHmwUC0="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Bootstrap JS Latest Version as of 3.23.2019-->
+    <script src="{{url_for('static', filename='./js/bootstrap.js')}}"></script>
+    <!-- Nav JS -->
+    <script src="{{url_for('static', filename='./js/nav.js')}}"></script>
   </body>
 </html>

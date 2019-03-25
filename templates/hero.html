@@ -1,63 +1,96 @@
-{% extends 'layout.html' %}
+<!-- ----------------------------------------------------------------------------------------
+* Authors       : Jonathan Jolivette | Matt Freeland | Enrique Morales
+* Template Name : TA | Teacher's Assistant
+* File          : TA HERO TEMPLATE
+* App Version   : 1.0
+---------------------------------------------------------------------------------------- */ -->
 
-{% block body %}
-<!-- Header starts here  -->
-    <header id="home" class="header-area">
-        <div class="table">
-            <div class="table-cell">
-                    <!-- Caption starts -->
-                    <div class="caption">
-                        <h1>TA</h1>
-                        <p>Teacher's Assistant</p>
-                        <a class="btn dark smooth_scroll" href="/login">Schedule Now</a>
-                    </div>
-                    <!-- Caption ends -->
+{% extends 'layout.html' %} {% block body %}
 
-            </div><!-- .table-cell -->
-        </div><!-- .table -->
-    </header>
-<!-- Header ends  -->
+<!-- Header area starts -->
+<header id="home" class="header-area">
+  <div class="table">
+    <div class="table-cell">
+      <!-- Caption starts -->
+      <div class="caption">
+        <h1>T.A.</h1>
+        <p>Teacher's Assistant</p>
+        <a class="btn dark" href="/">Schedule Now</a>
+      </div>
+      <!-- Caption ends -->
+    </div>
+    <!-- .table-cell -->
+  </div>
+  <!-- .table -->
 
-<!-- Hero Info Blocks Start -->
-    <section id="info" class="info-area section">
-        <div class="container">
+  <!--Video Sound Bars-->
+  <div id="bars">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+  </div>
 
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="section-title">
-                        <h2>TEACHER'S ASSISTANT</h2>
-                        <p>
-                            Let your Teacher's Assistant App help you schedule meetings with Instructor and TAs today.
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <!--Scroll Down Carrots-->
+  <div class="scroll-down"></div>
+</header>
+<!-- Header area ends -->
 
-            <div class="row">
-
-
-                <!-- Info Block One -->
-                <div class="single-info col-md-4 col-sm-6">
-                    <i class="fa fa-graduation-cap"></i>
-                    <h4>Student's</h4>
-                    <p>Login to view the time slots available on our calendar then pick a time and schedule your one on one meeting with a simple click.</p>
-                </div>
-
-                <!-- Info Block Two -->
-                <div class="single-info col-md-4 col-sm-6">
-                    <i class="fa fa-cog"></i>
-                    <h4>Teacher's</h4>
-                    <p>Setup is easy. </br>Let T.A. know your availability and it’ll do the work for you.</p>
-                </div>
-
-                <!-- Info Block Three -->
-                <div class="single-info col-md-4 col-sm-6">
-                    <i class="fa fa-question-circle"></i>
-                    <h4>Learn More</h4>
-                    <p>We take the work out of connecting with others so you can accomplish more. <a href="">Learn</a> how painless scheduling can be with Calendly.</p>
-                </div>
-                <!--Info Block Three End -->
-            </div>
+<!-- Info Area Starts -->
+<section id="info" class="info-area section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="section-title">
+          <h2>TEACHER'S ASSISTANT</h2>
+          <p>
+            We take the work out of connecting you with others so you can
+            accomplish more.</br> Let Your Teacher's Assistant App help you schedule
+            meetings with your instructors and TAs Today
+          </p>
         </div>
-    </section>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- info Item -->
+      <div class="single-info col-md-4 col-sm-6">
+        <i class="fas fa-info-circle"></i>
+        <a href="#"><h4>LEARN</h4></a>
+        <p>
+          LEARN how painless scheduling can be with the TA app.
+        </p>
+      </div>
+      <!-- /info Item -->
+
+      <!-- info Item -->
+      <div class="single-info col-md-4 col-sm-6">
+        <i class="fas fa-cog"></i>
+        <h4>TEACHERS</h4>
+        <p>
+          Setup is easy, just let TA know your availability and it'll do the work for you.
+        </p>
+      </div>
+      <!-- /info Item -->
+
+      <!-- info Item -->
+      <div class="single-info col-md-4 col-sm-6">
+        <i class="fas fa-graduation-cap"></i>
+        <h4>STUDENTS</h4>
+        <p>
+          Schedule a time to meet with your TA or Instructor with a simple click.
+        </p>
+      </div>
+      <!-- /info Item -->
+    </div>
+  </div>
+</section>
+<!-- info area ends -->
+
 {% endblock %}
