@@ -268,7 +268,6 @@ def save_picture(form_picture):
     # return value to user
     return picture_fn
 
-
 @app.route("/account", methods=['GET','POST'])
 @login_required
 def account():
@@ -277,20 +276,20 @@ def account():
         if form.picture.data:
             # allows us to set users current image to profile picture
             picture_file = save_picture(form.picture.data)
-            current_user.image_file = picture_file
-            print("beep")
-            print(picture_file)
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        g.db.commit()
+            update_image = User.update(image_file=picture_file).where(User.id == current_user.id)
+            update_image.execute()
+        # current_user.username = form.username.data
+        # current_user.email = form.email.data
+        # g.db.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        print("boop")
-    print("whirr")
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+        
+    image_location = User.get(User.id == current_user.id)
+    decoded_location = image_location.image_file.decode()
+    image_file = url_for('static', filename='profile_pics/' + decoded_location)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
 
 if __name__ == '__main__':
