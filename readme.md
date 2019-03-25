@@ -27,10 +27,10 @@ A scheduler application for the GA Instructional Team and Student Body to help s
 * Able to message and receive feedback through the system
 * As a TA, be able to block out certain schedules for different classes
 
-## Stretch Goals
+## Planned Features
 
-* Group Adding Function
-* Instant Messenger Service?
+* Scheduled Event Creation
+* Slack Integration
 * Email reminders
 * Email when notes are added to scheduled events
-* Text?
+* App Deployment with push notifications
