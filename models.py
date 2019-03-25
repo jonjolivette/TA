@@ -16,7 +16,7 @@ class User(UserMixin, Model):
     password = CharField(max_length=100)
     joined_at = DateTimeField(default=datetime.datetime.now)
     course = CharField()
-    image_file = CharField(default="default.png")
+    image_file = BlobField(default="default.png")
     event_assigned = BooleanField(default=False)
 
     class Meta:

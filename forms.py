@@ -7,6 +7,7 @@ import time
 
 from wtforms import StringField, PasswordField, TextAreaField, SelectField, TimeField, SubmitField
 from flask_wtf.file import FileField, FileAllowed
+from flask_login import current_user
 
 from wtforms.fields.html5 import DateField, DateTimeField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email, Length, EqualTo)
@@ -91,17 +92,17 @@ class UpdateAccountForm(Form):
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
 # These two methods below validate the updateAccount form not allowing an existent account to be created
-    # def validate_username(self, username):
-    #     if username.data != current_user.username:
-    #         user = User.query.filter_by(username=username.data).all()
-    #         if user:
-    #             raise ValidationError('That username is taken. please choose a different one')
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).all()
+            if user:
+                raise ValidationError('That username is taken. please choose a different one')
 
-    # def validate_email(self, email):
-    #     if email.data != current_user.email:
-    #         user = User.query.filter_by(email=email.data).all()
-    #         if user:
-    #             raise ValidationError('That email is taken. please choose a different one')
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).all()
+            if user:
+                raise ValidationError('That email is taken. please choose a different one')
 
 
 class LoginForm(Form):

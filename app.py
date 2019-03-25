@@ -15,6 +15,7 @@ from flask_fontawesome import FontAwesome
 from config import Config
 import secrets
 import os
+from PIL import Image
 
 import moment
 
@@ -273,25 +274,23 @@ def save_picture(form_picture):
 def account():
     form = forms.UpdateAccountForm()
     if form.validate_on_submit():
-        # if form.picture.data:
+        if form.picture.data:
             # allows us to set users current image to profile picture
-        picture_file = save_picture(form.picture.data)
-        print(picture_file)
-        update_image = User.update(image_file=picture_file).where(User.id == current_user.id)
-        update_image.execute()
-        # current_user.username = form.username.data
-        # current_user.email = form.email.data
-        # g.db.commit()
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+            print("beep")
+            print(picture_file)
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        g.db.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        
-    image_location = User.get(User.id == current_user.id)
-    # decoded_location = image_location.image_file.decode()
-    print(image_location.image_file)
-    image_file = url_for('static', filename='profile_pics/' + image_location.image_file)
+        print("boop")
+    print("whirr")
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
 
 if __name__ == '__main__':
